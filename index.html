@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chain · cash out Robinhood to crypto</title>
+  <meta name="description" content="Demo interface for cashing Robinhood dollars out to crypto on Robinhood Chain. Not affiliated with Robinhood Markets.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg" aria-hidden="true"><div class="dots"></div></div>
+
+  <header class="top">
+    <div class="top-in glass">
+      <a class="brand" href="#home" data-go="home">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <path d="M16 3c.4 4.2.2 7.2-1.2 10.2 3.6-1.5 7.2-1.2 10.7 1.6-5.2.6-8.6 3.2-10.3 8.6C13.4 18.6 10 16 5.2 15.2c3.4-2.8 7-3.2 10.6-2.2C15.2 9.6 15.4 6.6 16 3Z" fill="#f2f4f6"/>
+            <path d="M16 14.2c.2 2.2 0 3.8-.8 5.4 2-.8 3.8-.6 5.6.8-2.8.4-4.6 1.8-5.4 4.6-1-2.6-2.8-4-5.4-4.6 1.8-1.4 3.6-1.6 5.6-.8.4-1.6.4-3.2.4-5.4Z" fill="#0c0d0f" opacity=".35"/>
+          </svg>
+        </span>
+        Chain
+      </a>
+      <nav class="nav">
+        <a href="#home" data-go="home">Home</a>
+        <a href="#swap" data-go="swap">Swap Now</a>
+        <a href="#flow" data-go="flow">Capital Flow</a>
+        <a href="#analytics" data-go="analytics">Analytics</a>
+        <a href="#docs" data-go="docs">Docs</a>
+      </nav>
+      <div class="top-r">
+        <div id="signed-out">
+          <button class="btn light sm" type="button" data-signin>Continue with
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1.2c.2 2.2 0 3.8-.7 5.4 1.9-.8 3.8-.6 5.6.9-2.7.3-4.5 1.7-5.4 4.5-1-2.7-2.8-4.1-5.5-4.5 1.8-1.5 3.7-1.7 5.6-.9C7.4 5 7.6 3.4 8 1.2Z"/></svg>
+          </button>
+        </div>
+        <div id="signed-in" hidden>
+          <button class="me" id="menu-btn" type="button" aria-haspopup="menu">
+            <span class="av" id="av">A</span>
+            <span class="who"><b id="who-name">Alex</b><small id="who-bal">$48.00</small></span>
+          </button>
+          <div class="menu" id="menu" role="menu">
+            <button type="button" data-go="portfolio">My portfolio</button>
+            <button type="button" data-go="card">Your card &amp; invites</button>
+            <button type="button" data-go="swap">Swap</button>
+            <button type="button" data-go="orders">Your orders</button>
+            <div class="sep"></div>
+            <button type="button" id="sign-out">Sign out</button>
+          </div>
+        </div>
+        <button class="hb" id="hb" type="button" aria-label="Menu">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h14M3 10h14M3 14h14"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mnav" id="mnav">
+    <a href="#home" data-go="home">Home</a>
+    <a href="#swap" data-go="swap">Swap Now</a>
+    <a href="#flow" data-go="flow">Capital Flow</a>
+    <a href="#analytics" data-go="analytics">Analytics</a>
+    <a href="#docs" data-go="docs">Docs</a>
+    <a href="#portfolio" data-go="portfolio">My portfolio</a>
+    <a href="#card" data-go="card">Your card</a>
+    <button type="button" data-signin>Continue with Robinhood</button>
+  </div>
+
+  <main>
+    <section class="page" data-page="home">
+      <div class="hero">
+        <div>
+          <h1>Cash out Robinhood<br>to crypto.<br><span class="gr">No KYC.</span></h1>
+          <p class="lead">Sign in, send dollars to the desk, and get <b>USDC</b> or <b>ETH</b> on Robinhood Chain. Every sample order is tracked from payment to payout.</p>
+          <div class="cta">
+            <button class="btn light lg" type="button" data-signin id="home-signin">Continue with
+              <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M8 1.2c.2 2.2 0 3.8-.7 5.4 1.9-.8 3.8-.6 5.6.9-2.7.3-4.5 1.7-5.4 4.5-1-2.7-2.8-4.1-5.5-4.5 1.8-1.5 3.7-1.7 5.6-.9C7.4 5 7.6 3.4 8 1.2Z"/></svg>
+            </button>
+            <button class="btn ghost lg" type="button" id="home-swap">Swap now</button>
+          </div>
+          <div class="trust">
+            <span>Orders stay on your screen</span>
+            <span>Payout on Robinhood Chain</span>
+            <span>Your wallet, your keys</span>
+          </div>
+        </div>
+        <div class="stage" aria-hidden="true">
+          <div class="ring"></div>
+          <div class="sphere s2"></div>
+          <div class="sphere s1"></div>
+          <div class="sphere s3"></div>
+          <article class="gcard">
+            <div class="gh"><b>CH-7K2Q9M</b><span class="pill">Completed</span></div>
+            <div class="ticks"><i></i><i></i><i></i><i></i></div>
+            <div class="rowc"><div><small>You sent</small><b>$20.00</b></div><span class="tok cash">$</span></div>
+            <div class="rowc"><div><small>You received</small><b>19.10 USDC</b></div><span class="tok usdc">$</span></div>
+            <div class="gw"><span>to 7EcD…CFLt</span><span>Robinhood Chain</span></div>
+          </article>
+        </div>
+      </div>
+
+      <section class="sec">
+        <div class="split">
+          <div>
+            <p class="kicker">Bridge</p>
+            <div class="sec-h" style="display:block">
+              <h2>Swap Robinhood dollars to crypto.</h2>
+              <p style="margin-top:12px">Pick a coin and a network, paste your wallet, and the desk quotes the payout. Robinhood Chain is the default route.</p>
+            </div>
+          </div>
+          <div class="feed glass">
+            <div class="feed-h">
+              <b><i class="live"></i> Payout notifications</b>
+              <span class="note">Sample tape</span>
+            </div>
+            <div class="ticker" id="feed"></div>
+            <div class="coins" id="coin-row"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec" id="home-form">
+        <form class="swap glass" onsubmit="return false">
+          <div class="swap-top">
+            <h2>Swap</h2>
+            <span class="cap">Up to $20,000</span>
+          </div>
+          <div class="field">
+            <div class="flabel"><span>You send</span><span>Max $20,000</span></div>
+            <div class="box">
+              <input id="home-amt" value="1000" inputmode="decimal" aria-label="Dollars" disabled>
+              <div class="asset"><b>Robinhood</b><small>USD</small></div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="flabel"><span>You receive · estimated</span><span>1 USDC = $1.00</span></div>
+            <div class="box">
+              <input value="979.50" aria-label="You receive" readonly>
+              <div class="asset"><b>USDC</b><small>Robinhood Chain</small></div>
+            </div>
+          </div>
+          <div class="math"><span>Fee (2% + $0.50)</span><b>−$20.50</b></div>
+          <p class="payto">Pay to <b>the Chain desk</b> · demo screen, no payment is collected</p>
+          <button class="btn primary wide lg" type="button" data-go="swap">Swap now</button>
+        </form>
+      </section>
+
+      <section class="sec">
+        <div class="cardwrap">
+          <div>
+            <p class="kicker">Invites</p>
+            <h2 style="font-size:clamp(32px,4vw,46px);letter-spacing:-.04em;line-height:1.05">Your number. Your code.<br>Bring your people.</h2>
+            <p class="lead" style="margin-top:14px">A sample sign-in gives you a member number and an invite code. People you count stay on your card, in this browser only.</p>
+            <div class="cta">
+              <button class="btn primary" type="button" data-go="card">Get my card</button>
+              <button class="btn ghost" type="button" data-go="card">Open my card</button>
+            </div>
+          </div>
+          <article class="member">
+            <div class="topc"><span class="brandsm">CHAIN</span><span>Member</span></div>
+            <div>
+              <div style="color:var(--fg3);font-size:13px">Member</div>
+              <div style="font-size:28px;font-weight:750;letter-spacing:-.03em">#1,024</div>
+            </div>
+            <div class="botc"><div>Invite code<b>K7Q2MX</b></div><div>Network<b>Robinhood Chain</b></div></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="sec">
+        <div class="sec-h">
+          <div>
+            <p class="kicker">FAQ</p>
+            <h2>Good questions.</h2>
+          </div>
+          <p>This is a static demo. It does not connect to Robinhood, and it never asks for a password, seed phrase, or private key.</p>
+        </div>
+        <div class="faq">
+          <details open>
+            <summary>How does a cash-out work?</summary>
+            <p>You set an amount, a coin, a network, and your wallet. The screen issues an order code. On a live desk, dollars would be matched to that code and coins sent to the wallet. Here the steps stay in your browser.</p>
+          </details>
+          <details>
+            <summary>Why sign in?</summary>
+            <p>The sample profile keeps a member number, invite code, and orders together. Continue with Robinhood only stores that sample on this device. No Robinhood account is opened.</p>
+          </details>
+          <details>
+            <summary>What is the balance?</summary>
+            <p>The portfolio shows a sample welcome balance of $48. It is locked until October 4, 2026, 12:00 AM US Eastern, then the withdraw button explains that nothing is sent.</p>
+          </details>
+          <details>
+            <summary>How much can I send?</summary>
+            <p>The form accepts $2 to $20,000 per order. Those are interface limits for the demo, not a live settlement cap.</p>
+          </details>
+          <details>
+            <summary>How long does a payout take?</summary>
+            <p>Analytics shows sample timing. You can walk an order from waiting to completed yourself. Nothing is broadcast to a chain.</p>
+          </details>
+          <details>
+            <summary>Can I send crypto back to Robinhood?</summary>
+            <p>Not in this demo. Robinhood Chain → dollars is marked as opening later on Capital Flow.</p>
+          </details>
+        </div>
+      </section>
+    </section>
+
+    <section class="page" data-page="swap">
+      <div class="page-h">
+        <p class="kicker">Bridge</p>
+        <h1>Robinhood → crypto</h1>
+        <p>Send dollars toward the desk and receive a quote for coins in your wallet. Default network is Robinhood Chain.</p>
+      </div>
+      <div class="gate glass" id="swap-gate">
+        <h2>Sign in to use the bridge</h2>
+        <p>Orders in this demo are tied to a sample profile stored in the browser.</p>
+        <button class="btn light" type="button" data-signin>Continue with Robinhood</button>
+      </div>
+      <form class="swap glass" id="swap-form" hidden onsubmit="return false">
+        <div class="swap-top">
+          <h2>New order</h2>
+          <span class="cap">Up to $20,000</span>
+        </div>
+        <div class="switch" style="margin-top:0;margin-bottom:12px">
+          <button class="btn ghost sm on" type="button">Robinhood → crypto</button>
+          <button class="btn ghost sm" type="button" disabled>Crypto → Robinhood · soon</button>
+        </div>
+        <div class="field">
+          <div class="flabel"><span>You send</span><span>Max $20,000</span></div>
+          <div class="box">
+            <span style="color:var(--fg3);font-size:22px">$</span>
+            <input id="send-amt" value="1000" inputmode="decimal" aria-label="Amount in dollars">
+            <div class="asset"><b>Robinhood</b><small>USD</small></div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="flabel"><span>You receive · estimated</span><span id="rate-line">1 USDC = $1.00</span></div>
+          <div class="box">
+            <input id="recv-amt" readonly aria-label="Estimated receive">
+            <button class="asset" id="coin-btn" type="button" style="position:relative">
+              <span><b id="coin-btn-sym">USDC</b><small id="coin-btn-net">Robinhood Chain</small></span>
+            </button>
+          </div>
+          <div class="coin-pop" id="coin-menu"></div>
+        </div>
+        <div class="field">
+          <label id="addr-label" for="addr">Your Robinhood Chain address</label>
+          <input class="plain" id="addr" placeholder="0x… wallet on Robinhood Chain" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="memo">Memo</label>
+          <input class="plain" id="memo" placeholder="Optional" autocomplete="off">
+        </div>
+        <div class="math"><span>Fee (2% + $0.50)</span><b id="fee-line">−$20.50</b></div>
+        <div class="math"><span>You receive</span><b id="recv-line">979.50 USDC</b></div>
+        <p class="payto">Pay to <b>Chain desk</b> on the sample order. This page does not take a payment.</p>
+        <button class="btn primary wide lg" id="swap-go" type="button">Swap now</button>
+        <p class="hint" id="hint"></p>
+      </form>
+    </section>
+
+    <section class="page" data-page="orders">
+      <div class="page-h">
+        <p class="kicker">Orders</p>
+        <h1>Your orders</h1>
+        <p>Codes and statuses saved locally. Stepping an order forward does not move funds.</p>
+      </div>
+      <article class="gcard" id="active-order" hidden style="position:relative;left:auto;top:auto;transform:none;animation:none;margin-top:18px">
+        <div class="gh"><b id="ao-code">CH-</b><span class="pill" id="ao-status">Waiting</span></div>
+        <div class="ticks" id="ao-ticks"><i></i><i></i><i></i><i></i></div>
+        <div class="rowc"><div><small>You sent</small><b id="ao-sent">$0.00</b></div><span class="tok cash">$</span></div>
+        <div class="rowc"><div><small>You receive</small><b id="ao-recv">0 USDC</b></div><span class="tok usdc">$</span></div>
+        <div class="gw"><span id="ao-to"></span><span id="ao-net"></span></div>
+        <button class="btn ghost wide" id="ao-next" type="button" style="margin-top:14px">I've sent it</button>
+        <p class="sub">Demo desk controls. No transaction is broadcast.</p>
+      </article>
+      <div class="tabs">
+        <button class="on" type="button" data-tab="current">Current</button>
+        <button type="button" data-tab="history">History</button>
+      </div>
+      <div class="orders" id="order-list"></div>
+    </section>
+
+    <section class="page" data-page="portfolio">
+      <div class="page-h">
+        <p class="kicker">My portfolio</p>
+        <h1>Your balance</h1>
+        <p>A sample welcome balance. It is not cash from Robinhood and it is not sitting in a wallet.</p>
+      </div>
+      <div class="gate glass" id="port-gate">
+        <h2>Sign in to see a sample balance</h2>
+        <p>The figure appears after you use the local profile.</p>
+        <button class="btn light" type="button" data-signin>Continue with Robinhood</button>
+      </div>
+      <div id="port-body" hidden>
+        <div class="balance" id="bal">$48.00</div>
+        <p class="locknote">You can preview a swap with this number, and the withdraw control unlocks on <span id="unlock-when"></span>. Until then it stays visible and locked. Opens in <b id="countdown">—</b>.</p>
+        <div class="cta">
+          <button class="btn primary" id="withdraw" type="button" disabled>Withdraw the whole balance</button>
+          <button class="btn ghost" type="button" data-go="swap">Use on Swap</button>
+        </div>
+        <p class="hint" id="hint-port"></p>
+        <p class="sub">Withdrawals in the live concept would be on Robinhood Chain. This button does not send coins.</p>
+      </div>
+    </section>
+
+    <section class="page" data-page="card">
+      <div class="page-h">
+        <p class="kicker">Your card</p>
+        <h1>Your member card</h1>
+        <p>Your number, your invite code, and the sample steps beside them.</p>
+      </div>
+      <div class="gate glass" id="card-gate">
+        <h2>Get your number</h2>
+        <p>Use the sample profile to reveal a member card.</p>
+        <button class="btn light" type="button" data-signin>Continue with Robinhood</button>
+      </div>
+      <div id="card-body" hidden>
+        <div class="cardwrap" style="margin-top:18px">
+          <article class="member">
+            <div class="topc"><span class="brandsm">CHAIN</span><span>Member</span></div>
+            <div class="num" id="card-num">CH 0000 1024 ···· 2026</div>
+            <div class="botc">
+              <div>Cardholder<b>Robinhood</b></div>
+              <div>Member<b id="mnum">#1,024</b></div>
+              <div>Code<b id="mcode">K7Q2MX</b></div>
+            </div>
+          </article>
+          <div>
+            <h3>Invite link</h3>
+            <p class="sub" id="invite" style="margin:8px 0 12px;word-break:break-all"></p>
+            <button class="btn ghost sm" id="copy-invite" type="button">Copy</button>
+            <p style="margin-top:18px">People you invited <b>0</b></p>
+            <p class="sub" id="step-count">0 of 6 steps</p>
+          </div>
+        </div>
+        <div class="steps">
+          <div class="step" data-step="follow"><span class="ix">1</span><div><b>Follow the desk</b><small>Sample step. Nothing is posted.</small></div><button class="btn ghost sm" type="button" data-step-btn="follow">Done</button></div>
+          <div class="step" data-step="like"><span class="ix">2</span><div><b>Like the launch note</b><small>Marked only in this browser.</small></div><button class="btn ghost sm" type="button" data-step-btn="like">Done</button></div>
+          <div class="step" data-step="repost"><span class="ix">3</span><div><b>Repost the launch note</b><small>No account is used.</small></div><button class="btn ghost sm" type="button" data-step-btn="repost">Done</button></div>
+          <div class="step" data-step="card"><span class="ix">4</span><div><b>Save your card</b><small>The card above is the image.</small></div><button class="btn ghost sm" type="button" data-step-btn="card">Done</button></div>
+          <div class="step" data-step="reply"><span class="ix">5</span><div><b>Reply with your number</b><small>Optional sample step.</small></div><button class="btn ghost sm" type="button" data-step-btn="reply">Done</button></div>
+          <div class="step" data-step="telegram"><span class="ix">6</span><div><b>Join the community</b><small>No external chat is opened.</small></div><button class="btn ghost sm" type="button" data-step-btn="telegram">Done</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="flow">
+      <div class="page-h">
+        <p class="kicker">Capital flow</p>
+        <h1>How money moves</h1>
+        <p>Each hop from a Robinhood dollar balance to coins on Robinhood Chain.</p>
+      </div>
+      <div class="switch">
+        <button class="btn ghost sm on" type="button" data-dir="out">Robinhood → crypto</button>
+        <button class="btn ghost sm" type="button" data-dir="in">Crypto → Robinhood</button>
+      </div>
+      <div class="hops" id="flow-live">
+        <article class="hop glass"><div class="n">01</div><h3>Create an order</h3><p>Pick the coin and network, paste your wallet, and take an order code.</p></article>
+        <article class="hop glass"><div class="n">02</div><h3>Pay the desk</h3><p>On a live bridge, the exact dollars would be sent with the code in the note.</p></article>
+        <article class="hop glass"><div class="n">03</div><h3>Desk match</h3><p>The desk matches note, sender, and amount to the open order.</p></article>
+        <article class="hop glass"><div class="n">04</div><h3>Coins to your wallet</h3><p>USDC or ETH leaves on Robinhood Chain. The tx link would sit on the order.</p></article>
+      </div>
+      <div class="gate glass" id="flow-soon" hidden>
+        <h2>Opening later</h2>
+        <p>Crypto back into a Robinhood balance is not part of this demo.</p>
+      </div>
+    </section>
+
+    <section class="page" data-page="analytics">
+      <div class="page-h">
+        <p class="kicker">Analytics</p>
+        <h1>Analytics</h1>
+        <p>Sample volume, orders, and payout times for the layout. These figures are not live.</p>
+      </div>
+      <div class="desk glass"><i class="live"></i><div><b>Desk is open</b><div class="sub">Sample status. Last updated Sep 30, 2026</div></div></div>
+      <div class="stats">
+        <article class="stat glass"><span>Total volume</span><strong>$842,400</strong><em>Sample · Sep 30, 2026</em></article>
+        <article class="stat glass"><span>Orders completed</span><strong>12,640</strong><em>Sample · Sep 30, 2026</em></article>
+        <article class="stat glass"><span>Avg. payout time</span><strong>29 min</strong><em>Sample · Sep 30, 2026</em></article>
+      </div>
+      <h3 style="margin:26px 0 8px">Volume over time</h3>
+      <div class="chart glass" id="chart"></div>
+      <h3 style="margin:26px 0 8px">Orders by network</h3>
+      <div class="bars glass" id="nets"></div>
+      <h3 style="margin:26px 0 8px">Payout time</h3>
+      <p class="sub">From payment to coins sent · sample average 29 min</p>
+      <div class="bars glass" id="times" style="margin-top:10px"></div>
+      <article class="hop glass" style="margin-top:16px">
+        <h3>Current limits</h3>
+        <p>$2 to $20,000 per order on this screen. Larger tickets would wait longer on a real desk. Robinhood Chain is listed first because that is the route this fork is for.</p>
+      </article>
+    </section>
+
+    <section class="page" data-page="docs">
+      <div class="page-h">
+        <p class="kicker">Docs</p>
+        <h1>How Chain works</h1>
+        <p>Signing in, quoting, payouts, limits, and what this demo stores.</p>
+      </div>
+      <div class="docs">
+        <nav class="toc">
+          <a href="#d-overview">Overview</a>
+          <a href="#d-signin">Signing in</a>
+          <a href="#d-cash">Cashing out</a>
+          <a href="#d-coins">Coins &amp; networks</a>
+          <a href="#d-fees">Fees &amp; limits</a>
+          <a href="#d-status">Order statuses</a>
+          <a href="#d-safe">Staying safe</a>
+        </nav>
+        <article class="prose">
+          <h2 id="d-overview">Overview</h2>
+          <p>Chain is a static HTML fork of a cash-out bridge, aimed at Robinhood Chain. You quote an order, and the page remembers it locally.</p>
+          <div class="flow"><span class="chip">You</span><span class="chip">Robinhood USD</span><span class="chip">Desk</span><span class="chip">Coins on Robinhood Chain</span></div>
+          <h2 id="d-signin">Signing in</h2>
+          <p>Continue with Robinhood writes a sample profile in local storage: a name, member number, invite code, and a $48 balance. It does not open Robinhood, collect a password, or keep an access token.</p>
+          <h2 id="d-cash">Cashing out</h2>
+          <ol>
+            <li>Open the bridge and enter a dollar amount.</li>
+            <li>Pick the coin and network, then paste your wallet. EVM routes expect a 0x address.</li>
+            <li>Create the order. You get a code like CH-7K2Q9M.</li>
+            <li>Use the demo controls to move the status forward.</li>
+          </ol>
+          <p>The quote is fixed when the order is created. Stablecoins are one-to-one with the dollar, minus the fee.</p>
+          <h2 id="d-coins">Coins &amp; networks</h2>
+          <table>
+            <thead><tr><th>Coin</th><th>Network</th></tr></thead>
+            <tbody>
+              <tr><td>USDC</td><td>Robinhood Chain</td></tr>
+              <tr><td>ETH</td><td>Robinhood Chain</td></tr>
+              <tr><td>USDT</td><td>Ethereum</td></tr>
+              <tr><td>SOL</td><td>Solana</td></tr>
+            </tbody>
+          </table>
+          <p>Check the network before you would ever send coins. A wrong network cannot be reversed, and this demo will not reverse one either.</p>
+          <h2 id="d-fees">Fees &amp; limits</h2>
+          <p>The quote uses 2% plus $0.50, taken from the amount you type. Limits on the form are $2 to $20,000.</p>
+          <h2 id="d-status">Order statuses</h2>
+          <p><b style="color:var(--fg)">Waiting for payment.</b> Order created.</p>
+          <p><b style="color:var(--fg)">Payment sent.</b> You told the demo you paid.</p>
+          <p><b style="color:var(--fg)">Payment received.</b> The sample desk has the dollars.</p>
+          <p><b style="color:var(--fg)">Completed.</b> Marked as coins sent. There is no transaction link because nothing was broadcast.</p>
+          <h2 id="d-safe">Staying safe</h2>
+          <ul>
+            <li>This site never asks for a password, seed phrase, or private key.</li>
+            <li>Do not send money because a page looks like a cash-out desk.</li>
+            <li>Robinhood, Robinhood Chain, and related marks belong to their owners. This page is not affiliated with them.</li>
+          </ul>
+          <p>Last edited 30 September 2026</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="page" data-page="terms">
+      <div class="page-h">
+        <h1>Terms</h1>
+        <p>These terms cover this static demo only.</p>
+      </div>
+      <article class="prose">
+        <h2>The page</h2>
+        <p>Chain is an HTML interface that quotes a Robinhood-to-crypto style swap aimed at Robinhood Chain. It does not transmit orders, hold dollars, or send crypto.</p>
+        <h2>Your use</h2>
+        <p>You are responsible for what you type. Wallet addresses stay in local storage on your machine until you clear the site data.</p>
+        <h2>No advice</h2>
+        <p>Nothing here is financial, legal, or tax advice. Quotes use fixed sample prices for ETH and SOL.</p>
+        <p>Last edited 30 September 2026</p>
+      </article>
+    </section>
+
+    <section class="page" data-page="privacy">
+      <div class="page-h">
+        <h1>Privacy</h1>
+        <p>What stays on this device.</p>
+      </div>
+      <article class="prose">
+        <h2>What is stored</h2>
+        <ul>
+          <li>A sample profile if you choose Continue: name, member number, invite code, balance.</li>
+          <li>Orders you create: amount, coin, network, address, memo, status.</li>
+          <li>Which card steps you marked done.</li>
+        </ul>
+        <h2>What is not stored</h2>
+        <p>No password, no Robinhood session, no analytics script, no ad pixel. Data lives in local storage under the key chain-demo. Clear site data to delete it.</p>
+        <p>Last edited 30 September 2026</p>
+      </article>
+    </section>
+
+    <section class="page" data-page="disclosures">
+      <div class="page-h">
+        <h1>Disclosures</h1>
+        <p>What this fork is, and what it is not.</p>
+      </div>
+      <article class="prose">
+        <h2>Robinhood</h2>
+        <p>Chain is an independent HTML demo and is not affiliated with, endorsed by, or sponsored by Robinhood Markets, Inc., Robinhood Crypto, or the operators of Robinhood Chain. Names are used only to say which network the interface is about.</p>
+        <h2>Not a broker</h2>
+        <p>This page does not hold deposits, place trades, or pay a bonus. The $48 balance and the analytics totals are sample figures.</p>
+        <h2>Risk</h2>
+        <p>Crypto transfers on real networks are irreversible. This demo does not perform one.</p>
+        <p>Last edited 30 September 2026</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="foot">
+      <div>
+        <strong>Chain</strong>
+        <p style="margin-top:8px">Cash out Robinhood dollars to crypto on Robinhood Chain. A local demo. No payment is collected.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <button type="button" data-go="swap">Swap</button>
+        <button type="button" data-go="flow">Capital Flow</button>
+        <button type="button" data-go="card">Your card</button>
+        <button type="button" data-go="analytics">Analytics</button>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <button type="button" data-go="docs">Docs</button>
+        <button type="button" data-go="docs">Fees &amp; limits</button>
+        <button type="button" data-go="docs">Staying safe</button>
+      </div>
+      <div>
+        <h4>Community</h4>
+        <button type="button" data-go="docs">Desk</button>
+        <button type="button" data-go="card">Invites</button>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <button type="button" data-go="terms">Terms</button>
+        <button type="button" data-go="privacy">Privacy</button>
+        <button type="button" data-go="disclosures">Disclosures</button>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 Chain · Not affiliated with Robinhood Markets</span>
+      <span>Demo only · nothing on this page sends funds</span>
+    </div>
+  </footer>
+
+  <div class="modal" id="signin" role="dialog" aria-modal="true" aria-labelledby="signin-title">
+    <div class="sheet glass">
+      <h3 id="signin-title">Sample profile</h3>
+      <p>This does not connect to Robinhood. A sample member, a $48 balance, and your orders stay in this browser.</p>
+      <div class="actions">
+        <button class="btn ghost" type="button" data-close>Cancel</button>
+        <button class="btn primary" id="do-signin" type="button">Use sample profile</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
